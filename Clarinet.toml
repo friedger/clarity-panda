@@ -1,6 +1,7 @@
 
 [project]
 name = "clarity-panda"
+costs_version = 2
 
 [contracts.panda-mint]
 path = "contracts/panda-mint.clar"

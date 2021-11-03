@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info - contracts/panda-nft.clar</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">contracts</a> - panda-nft.clar<span style="font-size: 80%;"> (source / <a href="panda-nft.clar.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">76</td>
+            <td class="headerCovTableEntry">93</td>
+            <td class="headerCovTableEntryMed">81.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2021-11-03 13:37:28</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntryLo">70.6 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : (impl-trait .nft-trait.nft-trait)</a>
+<a name="2"><span class="lineNum">       2 </span>            : (use-trait commission-trait .commission-trait.commission)</a>
+<a name="3"><span class="lineNum">       3 </span>            : </a>
+<a name="4"><span class="lineNum">       4 </span>            : (define-non-fungible-token Panda uint)</a>
+<a name="5"><span class="lineNum">       5 </span>            : </a>
+<a name="6"><span class="lineNum">       6 </span>            : ;; Storage</a>
+<a name="7"><span class="lineNum">       7 </span>            : (define-map token-count principal uint)</a>
+<a name="8"><span class="lineNum">       8 </span>            : (define-map market uint {price: uint, commission: principal})</a>
+<a name="9"><span class="lineNum">       9 </span>            : </a>
+<a name="10"><span class="lineNum">      10 </span>            : ;; Define Constants</a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineCov">         16 : (define-constant CONTRACT-OWNER tx-sender)</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">         32 : (define-constant ERR-SOLD-OUT (err u300))</span></a>
+<a name="13"><span class="lineNum">      13 </span><span class="lineCov">         32 : (define-constant ERR-WRONG-COMMISSION (err u301))</span></a>
+<a name="14"><span class="lineNum">      14 </span><span class="lineCov">         32 : (define-constant ERR-NOT-AUTHORIZED (err u401))</span></a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">         32 : (define-constant ERR-NOT-FOUND (err u404))</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">         32 : (define-constant ERR-METADATA-FROZEN (err u505))</span></a>
+<a name="17"><span class="lineNum">      17 </span><span class="lineCov">         32 : (define-constant ERR-MINT-ALREADY-SET (err u506))</span></a>
+<a name="18"><span class="lineNum">      18 </span><span class="lineCov">         32 : (define-constant ERR-LISTING (err u507))</span></a>
+<a name="19"><span class="lineNum">      19 </span><span class="lineCov">         16 : (define-constant PANDA-LIMIT u888)</span></a>
+<a name="20"><span class="lineNum">      20 </span>            : </a>
+<a name="21"><span class="lineNum">      21 </span>            : ;; Withdraw wallets</a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">         16 : (define-constant WALLET_1 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5)</span></a>
+<a name="23"><span class="lineNum">      23 </span>            : </a>
+<a name="24"><span class="lineNum">      24 </span>            : ;; Define Variables</a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">         16 : (define-data-var last-id uint u0)</span></a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">         16 : (define-data-var mintpass-sale-active bool false)</span></a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">         16 : (define-data-var metadata-frozen bool false)</span></a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">         16 : (define-data-var base-uri (string-ascii 80) &quot;ipfs://abc/{id}&quot;)</span></a>
+<a name="29"><span class="lineNum">      29 </span><span class="lineCov">         16 : (define-constant contract-uri &quot;ipfs://&quot;)</span></a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">         16 : (define-constant proof-hash &quot;&quot;)</span></a>
+<a name="31"><span class="lineNum">      31 </span>            : (define-map mint-address bool principal)</a>
+<a name="32"><span class="lineNum">      32 </span>            : </a>
+<a name="33"><span class="lineNum">      33 </span>            : ;; Token count for account</a>
+<a name="34"><span class="lineNum">      34 </span>            : (define-read-only (get-balance (account principal))</a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineCov">       1828 :   (default-to u0</span></a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">       1828 :     (map-get? token-count account)))</span></a>
+<a name="37"><span class="lineNum">      37 </span>            : </a>
+<a name="38"><span class="lineNum">      38 </span>            : (define-private (trnsfr (id uint) (sender principal) (recipient principal))</a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineCov">         10 :   (match (nft-transfer? Panda id sender recipient)</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineNoCov">          0 :         success</span></a>
+<a name="41"><span class="lineNum">      41 </span><span class="lineCov">          2 :           (let</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          4 :             ((sender-balance (get-balance sender))</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">          4 :             (recipient-balance (get-balance recipient)))</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          2 :               (map-set token-count</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          2 :                     sender</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">          6 :                     (- sender-balance u1))</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">          2 :               (map-set token-count</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">          2 :                     recipient</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          6 :                     (+ recipient-balance u1))</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          4 :               (ok success))</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :         error (err error)))</span></a>
+<a name="52"><span class="lineNum">      52 </span>            : </a>
+<a name="53"><span class="lineNum">      53 </span>            : ;; SIP009: Transfer token to a specified principal</a>
+<a name="54"><span class="lineNum">      54 </span>            : (define-public (transfer (id uint) (sender principal) (recipient principal))</a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          3 :   (begin</span></a>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">         13 :     (asserts! (is-eq tx-sender sender) ERR-NOT-AUTHORIZED)</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">          9 :     (asserts! (is-none (map-get? market id)) ERR-LISTING)</span></a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          4 :     (trnsfr id sender recipient)))</span></a>
+<a name="59"><span class="lineNum">      59 </span>            : </a>
+<a name="60"><span class="lineNum">      60 </span>            : ;; SIP009: Get the owner of the specified token ID</a>
+<a name="61"><span class="lineNum">      61 </span>            : (define-read-only (get-owner (id uint))</a>
+<a name="62"><span class="lineNum">      62 </span>            :   ;; Make sure to replace Panda</a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineNoCov">          0 :   (ok (nft-get-owner? Panda id)))</span></a>
+<a name="64"><span class="lineNum">      64 </span>            : </a>
+<a name="65"><span class="lineNum">      65 </span>            : ;; SIP009: Get the last token ID</a>
+<a name="66"><span class="lineNum">      66 </span>            : (define-read-only (get-last-token-id)</a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          2 :   (ok (var-get last-id)))</span></a>
+<a name="68"><span class="lineNum">      68 </span>            : </a>
+<a name="69"><span class="lineNum">      69 </span>            : ;; SIP009: Get the token URI. You can set it to any other URI</a>
+<a name="70"><span class="lineNum">      70 </span>            : (define-read-only (get-token-uri (id uint))</a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          3 :   (ok (some (var-get base-uri))))</span></a>
+<a name="72"><span class="lineNum">      72 </span>            : </a>
+<a name="73"><span class="lineNum">      73 </span>            : (define-read-only (get-contract-uri)</a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineNoCov">          0 :   (ok contract-uri))</span></a>
+<a name="75"><span class="lineNum">      75 </span>            : </a>
+<a name="76"><span class="lineNum">      76 </span>            : ;; Mint new NFT</a>
+<a name="77"><span class="lineNum">      77 </span>            : ;; can only be called from the Mint</a>
+<a name="78"><span class="lineNum">      78 </span>            : (define-public (mint (new-owner principal))</a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">       3640 :     (let ((next-id (+ u1 (var-get last-id))))</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">       1821 :       (asserts! (called-from-mint) ERR-NOT-AUTHORIZED)</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineCov">       3637 :       (asserts! (&lt; (var-get last-id) PANDA-LIMIT) ERR-SOLD-OUT)</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">       3632 :       (match (nft-mint? Panda next-id new-owner)</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineNoCov">          0 :         success</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">        908 :         (let</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">       1816 :         ((current-balance (get-balance new-owner)))</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">        908 :           (begin</span></a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">       4540 :             (try! (stx-transfer? u25000000 tx-sender WALLET_1))</span></a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineCov">       1814 :             (var-set last-id next-id)</span></a>
+<a name="89"><span class="lineNum">      89 </span><span class="lineCov">        907 :             (map-set token-count</span></a>
+<a name="90"><span class="lineNum">      90 </span><span class="lineCov">        907 :               new-owner</span></a>
+<a name="91"><span class="lineNum">      91 </span><span class="lineCov">       2721 :               (+ current-balance u1)</span></a>
+<a name="92"><span class="lineNum">      92 </span>            :             )</a>
+<a name="93"><span class="lineNum">      93 </span><span class="lineCov">       1814 :             (ok true)))</span></a>
+<a name="94"><span class="lineNum">      94 </span><span class="lineNoCov">          0 :         error (err (* error u10000)))))</span></a>
+<a name="95"><span class="lineNum">      95 </span>            : </a>
+<a name="96"><span class="lineNum">      96 </span>            : (define-private (is-sender-owner (id uint))</a>
+<a name="97"><span class="lineNum">      97 </span><span class="lineCov">         35 :   (let ((owner (unwrap! (nft-get-owner? Panda id) false)))</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">         28 :     (or (is-eq tx-sender owner) (is-eq contract-caller owner))))</span></a>
+<a name="99"><span class="lineNum">      99 </span>            : </a>
+<a name="100"><span class="lineNum">     100 </span>            : (define-read-only (get-listing-in-ustx (id uint))</a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineNoCov">          0 :   (map-get? market id))</span></a>
+<a name="102"><span class="lineNum">     102 </span>            : </a>
+<a name="103"><span class="lineNum">     103 </span>            : (define-public (list-in-ustx (id uint) (price uint) (comm &lt;commission-trait&gt;))</a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">         15 :   (let ((listing  {price: price, commission: (contract-of comm)}))</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">         15 :     (asserts! (is-sender-owner id) ERR-NOT-AUTHORIZED)</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">         15 :     (map-set market id listing)</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">         25 :     (print (merge listing {a: &quot;list-in-ustx&quot;, id: id}))</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">         10 :     (ok true)))</span></a>
+<a name="109"><span class="lineNum">     109 </span>            : </a>
+<a name="110"><span class="lineNum">     110 </span>            : (define-public (unlist-in-ustx (id uint))</a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">          2 :   (begin</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineCov">          6 :     (asserts! (is-sender-owner id) ERR-NOT-AUTHORIZED)</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">          4 :     (map-delete market id)</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">          6 :     (print {a: &quot;unlist-in-ustx&quot;, id: id})</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">          4 :     (ok true)))</span></a>
+<a name="116"><span class="lineNum">     116 </span>            : </a>
+<a name="117"><span class="lineNum">     117 </span>            : (define-public (buy-in-ustx (id uint) (comm &lt;commission-trait&gt;))</a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">         15 :   (let ((owner (unwrap! (nft-get-owner? Panda id) ERR-NOT-FOUND))</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">         12 :       (listing (unwrap! (map-get? market id) ERR-LISTING))</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">          4 :       (price (get price listing)))</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">         11 :     (asserts! (is-eq (contract-of comm) (get commission listing)) ERR-WRONG-COMMISSION)</span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">          5 :     (try! (stx-transfer? price tx-sender owner))</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">          4 :     (try! (contract-call? comm pay id price))</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">          5 :     (try! (trnsfr id owner tx-sender))</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">          2 :     (map-delete market id)</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">          3 :     (print {a: &quot;buy-in-ustx&quot;, id: id})</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">          2 :     (ok true)))</span></a>
+<a name="128"><span class="lineNum">     128 </span>            : </a>
+<a name="129"><span class="lineNum">     129 </span>            : ;; Set base uri</a>
+<a name="130"><span class="lineNum">     130 </span>            : (define-public (set-base-uri (new-base-uri (string-ascii 80)))</a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :   (begin</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineNoCov">          0 :     (asserts! (is-eq contract-caller CONTRACT-OWNER) ERR-NOT-AUTHORIZED)</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineNoCov">          0 :     (asserts! (not (var-get metadata-frozen)) ERR-METADATA-FROZEN)</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineNoCov">          0 :     (var-set base-uri new-base-uri)</span></a>
+<a name="135"><span class="lineNum">     135 </span><span class="lineNoCov">          0 :     (ok true)))</span></a>
+<a name="136"><span class="lineNum">     136 </span>            : </a>
+<a name="137"><span class="lineNum">     137 </span>            : ;; Freeze metadata</a>
+<a name="138"><span class="lineNum">     138 </span>            : (define-public (freeze-metadata)</a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineNoCov">          0 :   (begin</span></a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineNoCov">          0 :     (asserts! (is-eq contract-caller CONTRACT-OWNER) ERR-NOT-AUTHORIZED)</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineNoCov">          0 :     (var-set metadata-frozen true)</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineNoCov">          0 :     (ok true)))</span></a>
+<a name="143"><span class="lineNum">     143 </span>            : </a>
+<a name="144"><span class="lineNum">     144 </span>            : ;; Manage the Mint</a>
+<a name="145"><span class="lineNum">     145 </span>            : (define-private (called-from-mint)</a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">       5460 :   (is-eq contract-caller (unwrap! (map-get? mint-address true) false)))</span></a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span>            : ;; can only be called once</a>
+<a name="149"><span class="lineNum">     149 </span>            : (define-public (set-mint-address)</a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">         16 :   (begin</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         80 :     (asserts! (and (is-none (map-get? mint-address true))</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">         48 :                 (map-insert mint-address true tx-sender))</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineNoCov">          0 :                 ERR-MINT-ALREADY-SET)</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">         32 :     (ok tx-sender)))</span></a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

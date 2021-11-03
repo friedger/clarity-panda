@@ -1,0 +1,80 @@
+
+Running file:///home/friedger/_repos/github/friedger/clarity-panda/tests/nft_test.ts
+* Ensure that NFT token URL and ID is as expected ... [0m[32mok[0m [0m[38;5;8m(15ms)[0m
+Running file:///home/friedger/_repos/github/friedger/clarity-panda/tests/mint_test.ts
+* Ensure that users can transfer own nft ... [0m[32mok[0m [0m[38;5;8m(19ms)[0m
+* Ensure that users can't transfer other nft ... [0m[32mok[0m [0m[38;5;8m(22ms)[0m
+* Ensure that presale mint and public mint can happen ... [0m[32mok[0m [0m[38;5;8m(88ms)[0m
+* Ensure that minting fails while mintpass and public mint disabled ... [0m[32mok[0m [0m[38;5;8m(9ms)[0m
+* Ensure that beneficials can't mint ... [0m[32mok[0m [0m[38;5;8m(16ms)[0m
+* Ensure that users can only mint after sale is activated ... [0m[32mok[0m [0m[38;5;8m(21ms)[0m
+* Ensure that users can only mint after mintpass sale is activated ... [0m[32mok[0m [0m[38;5;8m(17ms)[0m
+* Ensure that users can't mint more NFTs than they own mintpasses ... [0m[32mok[0m [0m[38;5;8m(23ms)[0m
+* Ensure that users can't mint via NFT contract ... [0m[32mok[0m [0m[38;5;8m(11ms)[0m
+Running file:///home/friedger/_repos/github/friedger/clarity-panda/tests/market_test.ts
+* Ensure that NFT can be listed and unlisted ... [0m[32mok[0m [0m[38;5;8m(29ms)[0m
+* Ensure that NFT can be listed and bought ... [0m[32mok[0m [0m[38;5;8m(28ms)[0m
+* Ensure that NFT can't be bought with different commission trait ... [0m[32mok[0m [0m[38;5;8m(34ms)[0m
+* Ensure that NFT can't be bought when unlisted ... [0m[32mok[0m [0m[38;5;8m(34ms)[0m
+* Ensure that NFT can't be transferred when listed ... [0m[32mok[0m [0m[38;5;8m(32ms)[0m
+* Ensure that users can't mint more than 888 NFTs ... [0m[32mok[0m [0m[38;5;8m(5065ms)[0m
+
+test result: [0m[32mok[0m. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out [0m[38;5;8m(6993ms)[0m
+
+
+Contract calls cost synthesis
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+|                                   | Runtime (units)  | Read Count | Read Length (bytes) | Write Count | Write Length (bytes) | Tx per Block |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-mint::claim                 |  2684000 (0.05%) |  5 (0.06%) |        2506 (0.00%) |           0 |                    0 |         1550 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-mint::claim-five            | 36628000 (0.73%) | 61 (0.79%) |       25945 (0.03%) |  20 (0.26%) |         1396 (0.01%) |          127 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-mint::flip-mintpass-sale    |  2676000 (0.05%) |  7 (0.09%) |        2506 (0.00%) |   2 (0.03%) |            4 (0.00%) |         1107 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-mint::flip-sale             |  2676000 (0.05%) |  7 (0.09%) |        2506 (0.00%) |   2 (0.03%) |            4 (0.00%) |         1107 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-mint::get-presale-balance   |  2970000 (0.06%) |  4 (0.05%) |        2667 (0.00%) |           0 |                    0 |         1683 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::buy-in-ustx            |  5921000 (0.12%) |  5 (0.06%) |        5523 (0.01%) |           0 |                    0 |          844 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::get-balance            |  5769000 (0.12%) |  4 (0.05%) |        5466 (0.01%) |           0 |                    0 |          866 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::get-last-token-id      |  5322000 (0.11%) |  4 (0.05%) |        5318 (0.01%) |           0 |                    0 |          939 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::get-token-uri          |  5410000 (0.11%) |  4 (0.05%) |        5386 (0.01%) |           0 |                    0 |          924 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::list-in-ustx           |  6820000 (0.14%) |  5 (0.06%) |        5302 (0.01%) |   1 (0.01%) |          221 (0.00%) |          733 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::mint                   |  5657000 (0.11%) |  5 (0.06%) |        5468 (0.01%) |           0 |                    0 |          883 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::transfer               |  5794000 (0.12%) |  3 (0.04%) |        5301 (0.01%) |           0 |                    0 |          862 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| panda-nft::unlist-in-ustx         |  5674000 (0.11%) |  5 (0.06%) |        5302 (0.01%) |   1 (0.01%) |           17 (0.00%) |          881 |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+|                                                                                                                                             |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+| Mainnet Block Limits (Stacks 2.0) |       5000000000 |       7750 |           100000000 |        7750 |             15000000 |            / |
++-----------------------------------+------------------+------------+---------------------+-------------+----------------------+--------------+
+
+
+----------------------------
+Check out the pro tips to improve your testing process:
+
+  $ clarinet test --watch
+    Watch for file changes an re-run all tests.
+
+  $ clarinet test --costs
+    Run a cost analysis of the contracts covered by tests.
+
+  $ clarinet test --coverage
+    Measure test coverage with the LCOV tooling suite.
+
+Once you are ready to test your contracts on a local developer network, run the following:
+
+  $ clarinet integrate
+    Deploy all contracts to a local dockerized blockchain setup (Devnet).
+
+Find more information on testing with Clarinet here: https://docs.hiro.so/docs/smart-contracts/clarinet#testing-with-clarinet
+Disable these hints with the env var CLARINET_DISABLE_HINTS=1
+----------------------------
