@@ -28,7 +28,7 @@
 (define-data-var base-uri (string-ascii 80) "ipfs://abc/{id}")
 (define-constant contract-uri "ipfs://")
 (define-constant proof-hash "")
-(define-map mint-address bool principal)
+(define-data-var mint-address (optional principal) none)
 
 ;; Token count for account
 (define-read-only (get-balance (account principal))
@@ -143,12 +143,12 @@
 
 ;; Manage the Mint
 (define-private (called-from-mint)
-  (is-eq contract-caller (unwrap! (map-get? mint-address true) false)))
+  (is-eq contract-caller (unwrap! (var-get mint-address) false)))
 
 ;; can only be called once
 (define-public (set-mint-address)
   (begin
-    (asserts! (and (is-none (map-get? mint-address true))
-                (map-insert mint-address true tx-sender))
+    (asserts! (and (is-none (var-get mint-address))
+                (var-set mint-address (some tx-sender)))
                 ERR-MINT-ALREADY-SET)
     (ok tx-sender)))
