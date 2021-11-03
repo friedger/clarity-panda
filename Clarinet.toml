@@ -1,0 +1,27 @@
+
+[project]
+name = "clarity-panda"
+
+[contracts.panda-mint]
+path = "contracts/panda-mint.clar"
+depends_on = ["panda-nft"]
+
+[contracts.panda-nft]
+path = "contracts/panda-nft.clar"
+depends_on = ["nft-trait", "commission-trait"]
+
+[contracts.commission-trait]
+path = "contracts/external/commission-trait.clar"
+depends_on = []
+
+[contracts.commission-nop]
+path = "contracts/external/commission-nop.clar"
+depends_on = []
+
+[contracts.commission-fixed]
+path = "contracts/external/commission-fixed.clar"
+depends_on = []
+
+[contracts.nft-trait]
+path = "contracts/external/nft-trait.clar"
+depends_on = []
