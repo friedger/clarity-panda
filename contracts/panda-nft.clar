@@ -25,7 +25,7 @@
 (define-data-var last-id uint u0)
 (define-data-var mintpass-sale-active bool false)
 (define-data-var metadata-frozen bool false)
-(define-data-var base-uri (string-ascii 80) "ipfs://QmYLuNdfAx6SFSd1djb5cERwaEbZQvP6G8J8TdmpeJGucp/{id}.json")
+(define-data-var base-uri (string-ascii 80) "ipfs://QmVXsMm81K2wx1T5LpW1FdzXHgsJKohv3h7Ah6dPrgxg1T/{id}.json")
 (define-constant contract-uri "ipfs://QmQprYwdv3E2hUnQiuYs24rASevK1ch3Q3MHJviwP6WTqA")
 (define-constant proof-hash "d8865af64e2f657f0958e63653359ad6c0a6b40783b25f72f379eb17b0c8caba")
 (define-map mint-address bool principal)
