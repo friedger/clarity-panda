@@ -1,30 +1,5 @@
 import { Chain, Tx, types, Account } from "./deps.ts";
 
-export function flipMintpassSale(address: string) {
-  return Tx.contractCall(
-    "panda-mint",
-    "flip-mintpass-sale",
-    [],
-    address
-  );
-}
-
-export function flipSale(address: string) {
-  return Tx.contractCall("panda-mint", "flip-sale", [], address);
-}
-
-export function claim(address: string) {
-  return Tx.contractCall("panda-mint", "claim", [], address);
-}
-
-export function claimTwo(address: string) {
-  return Tx.contractCall("panda-mint", "claim-two", [], address);
-}
-
-export function claimFive(address: string) {
-  return Tx.contractCall("panda-mint", "claim-five", [], address);
-}
-
 export function transfer(
   id: number,
   sender: Account,
@@ -84,11 +59,15 @@ export function buy(id: number, commission: string, user: Account) {
   );
 }
 
-export function getMintpassBalance(chain: Chain, user: Account) {
-  return chain.callReadOnlyFn(
-    "panda-mint",
-    "get-presale-balance",
-    [types.principal(user.address)],
+export function freezeMetadata(user: Account) {
+  return Tx.contractCall("panda-nft", "freeze-metadata", [], user.address);
+}
+
+export function setBaseUri(uri: string, user: Account) {
+  return Tx.contractCall(
+    "panda-nft",
+    "set-base-uri",
+    [types.ascii(uri)],
     user.address
   );
 }

@@ -6,15 +6,9 @@ import {
   Account,
   types,
 } from "../src/deps.ts";
-import {
-  flipMintpassSale,
-  flipSale,
-  claim,
-  transfer,
-  list,
-  unlist,
-  buy,
-} from "../src/panda-nft-client.ts";
+import { transfer, list, unlist, buy } from "../src/panda-nft-client.ts";
+
+import { flipMintpassSale, flipSale, mint } from "../src/panda-mint-client.ts";
 
 Clarinet.test({
   name: "Ensure that NFT can be listed and unlisted",
@@ -23,9 +17,9 @@ Clarinet.test({
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
       flipSale(deployer.address),
-      claim(wallet_2.address),
-      list(1, 51_000_000, deployer.address + ".commission-nop", wallet_2),
-      unlist(1, wallet_2),
+      mint(wallet_2.address),
+      list(822, 51_000_000, deployer.address + ".commission-nop", wallet_2),
+      unlist(822, wallet_2),
     ]);
     assertEquals(block.receipts.length, 4);
     assertEquals(block.height, 2);
@@ -44,9 +38,9 @@ Clarinet.test({
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
       flipSale(deployer.address),
-      claim(wallet_2.address),
-      list(1, 51_000_000, deployer.address + ".commission-nop", wallet_2),
-      buy(1, deployer.address + ".commission-nop", wallet_1),
+      mint(wallet_2.address),
+      list(822, 51_000_000, deployer.address + ".commission-nop", wallet_2),
+      buy(822, deployer.address + ".commission-nop", wallet_1),
     ]);
     assertEquals(block.receipts.length, 4);
     assertEquals(block.height, 2);
@@ -59,7 +53,7 @@ Clarinet.test({
     let logEvent = block.receipts[3].events[2];
     assertEquals(stxEvent.stx_transfer_event.amount, "51000000");
     assertEquals(nftEvent.nft_transfer_event.recipient, wallet_1.address);
-    assertEquals(logEvent.contract_event.value, '{a: "buy-in-ustx", id: u1}');
+    assertEquals(logEvent.contract_event.value, '{a: "buy-in-ustx", id: u822}');
   },
 });
 
@@ -71,9 +65,9 @@ Clarinet.test({
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
       flipSale(deployer.address),
-      claim(wallet_2.address),
-      list(1, 51_000_000, deployer.address + ".commission-fixed", wallet_2),
-      buy(1, deployer.address + ".commission-nop", wallet_1),
+      mint(wallet_2.address),
+      list(822, 51_000_000, deployer.address + ".commission-fixed", wallet_2),
+      buy(822, deployer.address + ".commission-nop", wallet_1),
     ]);
     block.receipts[0].result.expectOk().expectBool(true);
     block.receipts[1].result.expectOk().expectBool(true);
@@ -90,10 +84,10 @@ Clarinet.test({
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
       flipSale(deployer.address),
-      claim(wallet_2.address),
-      list(1, 51_000_000, deployer.address + ".commission-nop", wallet_2),
-      unlist(1, wallet_2),
-      buy(1, deployer.address + ".commission-nop", wallet_1),
+      mint(wallet_2.address),
+      list(822, 51_000_000, deployer.address + ".commission-nop", wallet_2),
+      unlist(822, wallet_2),
+      buy(822, deployer.address + ".commission-nop", wallet_1),
     ]);
     block.receipts[0].result.expectOk().expectBool(true);
     block.receipts[1].result.expectOk().expectBool(true);
@@ -111,9 +105,9 @@ Clarinet.test({
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
       flipSale(deployer.address),
-      claim(wallet_2.address),
-      list(1, 51_000_000, deployer.address + ".commission-nop", wallet_2),
-      transfer(1, wallet_2, wallet_1),
+      mint(wallet_2.address),
+      list(822, 51_000_000, deployer.address + ".commission-nop", wallet_2),
+      transfer(822, wallet_2, wallet_1),
     ]);
     block.receipts[0].result.expectOk().expectBool(true);
     block.receipts[1].result.expectOk().expectBool(true);

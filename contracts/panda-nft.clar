@@ -25,8 +25,8 @@
 (define-data-var last-id uint u0)
 (define-data-var mintpass-sale-active bool false)
 (define-data-var metadata-frozen bool false)
-(define-data-var base-uri (string-ascii 80) "ipfs://abc/{id}")
-(define-constant contract-uri "ipfs://")
+(define-data-var base-uri (string-ascii 80) "ipfs://QmYLuNdfAx6SFSd1djb5cERwaEbZQvP6G8J8TdmpeJGucp/{id}.json")
+(define-constant contract-uri "ipfs://QmQprYwdv3E2hUnQiuYs24rASevK1ch3Q3MHJviwP6WTqA")
 (define-constant proof-hash "")
 (define-map mint-address bool principal)
 
@@ -75,23 +75,23 @@
 
 ;; Mint new NFT
 ;; can only be called from the Mint
-(define-public (mint (new-owner principal))
+(define-public (mint (new-owner principal) (paid bool) (id uint))
     (let ((next-id (+ u1 (var-get last-id))))
       (asserts! (called-from-mint) ERR-NOT-AUTHORIZED)
       (asserts! (< (var-get last-id) PANDA-LIMIT) ERR-SOLD-OUT)
-      (match (nft-mint? Panda next-id new-owner)
+      (match (nft-mint? Panda id new-owner)
         success
         (let
         ((current-balance (get-balance new-owner)))
           (begin
-            (try! (stx-transfer? u25000000 tx-sender WALLET_1))
+            (and paid (try! (stx-transfer? u25000000 tx-sender WALLET_1)))
             (var-set last-id next-id)
             (map-set token-count
               new-owner
               (+ current-balance u1)
             )
             (ok true)))
-        error (err (* error u10000)))))
+        error (err (* error u100)))))
 
 (define-private (is-sender-owner (id uint))
   (let ((owner (unwrap! (nft-get-owner? Panda id) false)))
@@ -148,7 +148,6 @@
 ;; can only be called once
 (define-public (set-mint-address)
   (begin
-    (asserts! (and (is-none (map-get? mint-address true))
-                (map-insert mint-address true tx-sender))
-                ERR-MINT-ALREADY-SET)
+    (asserts! (is-none (map-get? mint-address true)) ERR-MINT-ALREADY-SET)
+    (map-insert mint-address true tx-sender)
     (ok tx-sender)))

@@ -9,12 +9,12 @@ import {
 import {
   flipMintpassSale,
   flipSale,
-  claimFive,
-  claimTwo,
-  claim,
-  getBalance,
+  mintFive,
+  mintTwo,
+  mint,
   getMintpassBalance,
-} from "../src/panda-nft-client.ts";
+} from "../src/panda-mint-client.ts";
+import { getBalance } from "../src/panda-nft-client.ts";
 import { addStxTransferAmount } from "../src/utils.ts";
 
 Clarinet.test({
@@ -28,7 +28,7 @@ Clarinet.test({
 
     let block = chain.mineBlock([
       flipMintpassSale(deployer.address),
-      claim(wallet_2.address),
+      mint(wallet_2.address),
     ]);
     block.receipts[0].result.expectOk();
     block.receipts[1].result.expectOk();
@@ -44,7 +44,7 @@ Clarinet.test({
 
     block = chain.mineBlock([
       flipSale(deployer.address),
-      claimFive(wallet_2.address),
+      mintFive(wallet_2.address),
     ]);
     block.receipts[0].result.expectOk();
     block.receipts[1].result.expectOk();
@@ -65,7 +65,7 @@ Clarinet.test({
   async fn(chain: Chain, accounts: Map<string, Account>) {
     let deployer = accounts.get("deployer")!;
     let wallet_2 = accounts.get("wallet_2")!;
-    let block = chain.mineBlock([claim(wallet_2.address)]);
+    let block = chain.mineBlock([mint(wallet_2.address)]);
     block.receipts[0].result.expectErr().expectUint(500);
   },
 });
@@ -77,7 +77,7 @@ Clarinet.test({
     let wallet_1 = accounts.get("wallet_1")!;
     let block = chain.mineBlock([
       flipSale(deployer.address),
-      claim(wallet_1.address),
+      mint(wallet_1.address),
     ]);
     block.receipts[1].result.expectErr().expectUint(2);
   },
@@ -89,9 +89,9 @@ Clarinet.test({
     let deployer = accounts.get("deployer")!;
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
-      claim(wallet_2.address),
+      mint(wallet_2.address),
       flipSale(deployer.address),
-      claim(wallet_2.address),
+      mint(wallet_2.address),
     ]);
     block.receipts[0].result.expectErr().expectUint(500);
     block.receipts[1].result.expectOk().expectBool(true);
@@ -105,9 +105,9 @@ Clarinet.test({
     let deployer = accounts.get("deployer")!;
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
-      claim(wallet_2.address),
+      mint(wallet_2.address),
       flipMintpassSale(deployer.address),
-      claim(wallet_2.address),
+      mint(wallet_2.address),
     ]);
     block.receipts[0].result.expectErr().expectUint(500);
     block.receipts[1].result.expectOk().expectBool(true);
@@ -122,7 +122,7 @@ Clarinet.test({
     let wallet_2 = accounts.get("wallet_2")!;
     let block = chain.mineBlock([
       flipMintpassSale(deployer.address),
-      claimFive(wallet_2.address),
+      mintFive(wallet_2.address),
     ]);
     block.receipts[0].result.expectOk().expectBool(true);
     block.receipts[1].result.expectErr().expectUint(501);
@@ -138,7 +138,7 @@ Clarinet.test({
       Tx.contractCall(
         "panda-nft",
         "mint",
-        [types.principal(wallet_2.address)],
+        [types.principal(wallet_2.address), types.bool(true), types.uint(1)],
         wallet_2.address
       ),
     ]);
@@ -154,12 +154,12 @@ Clarinet.test({
     let block = chain.mineBlock([flipSale(deployer.address)]);
     block.receipts[0].result.expectOk();
 
-    for (let i = 0; i < 888; i++) {
-      block = chain.mineBlock([claim(wallet_2.address)]);
+    for (let i = 0; i < 888 - 15; i++) {
+      block = chain.mineBlock([mint(wallet_2.address)]);
       block.receipts[0].result.expectOk();
     }
 
-    block = chain.mineBlock([claim(wallet_2.address)]);
+    block = chain.mineBlock([mint(wallet_2.address)]);
     block.receipts[0].result.expectErr().expectUint(300);
   },
 });

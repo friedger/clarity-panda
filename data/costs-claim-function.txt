@@ -1,6 +1,6 @@
 # use map for mint-address
 
->> ::get_costs (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.panda-mint claim)
+>> ::get_costs (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.panda-mint mint)
 +----------------------+----------+------------+
 |                      | Consumed | Limit      |
 +----------------------+----------+------------+
@@ -16,7 +16,7 @@
 +----------------------+----------+------------+
 
 # use var for mint-address
->> ::get_costs (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.panda-mint claim)
+>> ::get_costs (contract-call? 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.panda-mint mint)
 +----------------------+----------+------------+
 |                      | Consumed | Limit      |
 +----------------------+----------+------------+
