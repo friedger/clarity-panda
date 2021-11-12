@@ -113,8 +113,6 @@
 (contract-call? .panda-nft mint tx-sender false (unwrap! (element-at ids u13) ERR-ZERO))
 (contract-call? .panda-nft mint tx-sender false (unwrap! (element-at ids u14) ERR-ZERO))
 
-;; remove when deploying
-(map-set presale-count 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG u4)
 ;; Mintpass Addresses
 (map-set presale-count 'SP7RKS2TA7SF2WC67CGQTTNX4HNV5D17AT0V52VF u2)
 (map-set presale-count 'SP1NWCTK8Q3KYQMMMWFDBVRGVYRKZRSSEAMPD2P85 u2)

@@ -1,5 +1,5 @@
-(impl-trait .nft-trait.nft-trait)
-(use-trait commission-trait .commission-trait.commission)
+(impl-trait 'SP2PABAF9FTAJYNFZH93XENAJ8FVY99RRM50D2JG9.nft-trait.nft-trait)
+(use-trait commission-trait 'SP3D6PV2ACBPEKYJTCMH7HEN02KP87QSP8KTEH335.commission-trait.commission)
 
 (define-non-fungible-token Panda uint)
 
