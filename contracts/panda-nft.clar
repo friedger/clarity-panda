@@ -19,7 +19,7 @@
 (define-constant PANDA-LIMIT u888)
 
 ;; Withdraw wallets
-(define-constant WALLET_1 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5)
+(define-constant WALLET_1 'SP12X1RTBWWZWGGYT0E0MH92BQVHWNTYMT825MB3Q)
 
 ;; Define Variables
 (define-data-var last-id uint u0)
